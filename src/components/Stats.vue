@@ -1,48 +1,54 @@
 <template>
-  <div class="hello">
+  <div class="stats">
+   <h1> status :</h1>
 
-    <div class="left">
-:::: {{title}}
+      <p>
+         there are {{ countLinks }} links
+      </p>
+      <p>{{msg}}</p>
 
-      <ul>
-        <li v-for="(link, index) in links">
-
-          {{link}}
-        </li>
-
-      </ul>
-    </div>
-
-
-
-    <div class="right">
-      <stats></stats>
-
-    </div>
-    <h1>{{ msg }}</h1>
-
-    <h3>Installed CLI Plugins</h3>
+      <button v-on:click="removeAllLinks">Remove all links</button>
 
   </div>
 </template>
 
 <script>
-  import { mapState } from 'vuex'
-  import Stats from '@/component/Stats.vue'
-export default {
-  name: 'HelloWorld',
-  props: {
-    msg: String
+  import { mapGetters,mapMutations,mapActions } from 'vuex'
+
+  export default {
+
+  name: 'stats',
+  data(){
+      return {
+          msg:" "
+      }
   },
+
   computed: {
 
-    ...mapState([
-            'title',
-            'links'
+    ...mapGetters([
+            'countLinks'
     ]),
     //other
 
+  },
+  methods:{
+      ...mapMutations([
+          'REMOVE_ALL'
+      ]),
+      ...mapActions([
+          'removeAll'
+      ]),
+      removeAllLinks:function(){
+          this.removeAll().then(()=>{
+              console.log(" remove all success")
+              this.msg=" removed..."
+          })
+
+      }
   }
+
+
 }
 </script>
 
